@@ -486,7 +486,7 @@ void RenderOGLScene()
     GLfloat glfLightPos[] = { -4.0f, 4.0f, 4.0f, 0.0f };
 	// Specify the position of the light in homogeneous object coordinates
 	// The forth parameter w is 0.0, which means the light is treated as an directional source
-    GLfloat glfLightAmb[] = { .3f, .3f, .3f, 1.0f };  // Specify the ambient RGBA intensity of the light
+    GLfloat glfLightAmb[] = { .3f, .3f, .3f , 1.0f};  // Specify the ambient RGBA intensity of the light
     glLightfv(GL_LIGHT0, GL_AMBIENT, glfLightAmb);  // The light position is transformed by the modelview matrix and stored in eye coordinates
     glLightfv(GL_LIGHT1, GL_POSITION, glfLightPos);
     glEnable(GL_COLOR_MATERIAL);
@@ -527,9 +527,9 @@ void RenderOGLScene()
     glVertex3f(0, 0, 300);
     glEnd();
 
-    //// Draw grid
-    //glLineWidth(1.0f);
-    //OpenGLDrawingFunctions::DrawGrid();
+    //Draw grid
+    glLineWidth(1.0f);
+    OpenGLDrawingFunctions::DrawGrid();
 	///////////////////////////////////////////////////////////////////////////
 
 
@@ -553,9 +553,9 @@ void RenderOGLScene()
 	glm::mat4 Projection = glm::perspective(glm::radians(40.0f), 1136.0f / 534.0f, 1.0f, 10000.0f);
 	// Camera matrix
 	glm::mat4 View = glm::lookAt(
-		glm::vec3(0, 1000, 5000), // Camera is at (0,3,5), in World Space
+		glm::vec3(0, 3000, 5000), // Camera is at (0,3,5), in World Space
 		glm::vec3(0, 0, 0), // and looks at the origin
-		glm::vec3(0, 1000, 0)  // Head is up (set to 0,-1,0 to look upside-down)
+		glm::vec3(0, 1, 0)  // Head is up (set to 0,-1,0 to look upside-down)
 	);
 	// Model matrix : an identity matrix (model will be at the origin)
 	glm::mat4 Model = glm::mat4(1.0f);
@@ -573,13 +573,14 @@ void RenderOGLScene()
 	// A cube has 6 faces with 2 triangles each, so this makes 6*2=12 triangles, and 12*3 vertices
 	static const GLfloat g_vertex_buffer_data[] = {
 
-		 1000.0f,-1000.0f, 1000.0f,
-		-1000.0f,-1000.0f,-1000.0f,
-		 1000.0f,-1000.0f,-1000.0f,
 
-		 1000.0f,-1000.0f, 1000.0f,
-		-1000.0f,-1000.0f, 1000.0f,
-		-1000.0f,-1000.0f,-1000.0f,
+		 1000.0f,0.0f, 1000.0f,
+		-1000.0f,0.0f,-1000.0f,
+		 1000.0f,0.0f,-1000.0f,
+
+		 1000.0f,0.0f, 1000.0f,
+		-1000.0f,0.0f, 1000.0f,
+		-1000.0f,0.0f,-1000.0f,
 
 
 	};
@@ -588,11 +589,17 @@ void RenderOGLScene()
 	static const GLfloat g_uv_buffer_data[] = {
 
 
-		3000.0f, 3000.0f,
+		//1.0f, 1.0f,
+		//0.0f, 0.0f,
+		//1.0f, 0.0f,
+		//1.0f, 1.0f,
+		//0.0f, 1.0f,
+		//0.0f, 0.0f
+		0.3f, 0.3f,
 		0.0f, 0.0f,
-		3000.0f, 0.0f,
-		3000.0f, 3000.0f,
-		0.0f, 3000.0f,
+		0.3f, 0.0f,
+		0.3f, 0.3f,
+		0.0f, 0.3f,
 		0.0f, 0.0f
 
 
@@ -610,7 +617,9 @@ void RenderOGLScene()
 
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
+	//glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST_MIPMAP_NEAREST);
 
+	
 	// Clear the screen
 	//glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
